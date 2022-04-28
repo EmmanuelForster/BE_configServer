@@ -48,10 +48,6 @@ info:
     port: ${server.port}
 
 eureka:
-  instance:
-    hostname: registry-service
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
   client:
     service-url:
       defaultZone: http://registry-service:8761/eureka

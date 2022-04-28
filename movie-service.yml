@@ -1,0 +1,53 @@
+
+server:
+  port: 8097
+
+spring:    
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/movies
+
+  zipkin:
+    base-url: http://zipkin:9411/
+    enabled: true
+
+  rabbitmq:
+     username: guest
+     password: guest
+     host: rabbit-mq
+     port: 5672
+
+eureka:
+#  instance:
+#    hostname: localhost
+#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+
+queue:
+  movie:
+    name: movieQueue
+
+message: hello world
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info
+  info:
+    env:
+      enabled: true
+  endpoint:
+    info:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0
+    description: Movie Microservice
+  svc:
+    instance-id: ${eureka.instance.instance-id}
+    port: ${server.port}

@@ -1,0 +1,97 @@
+spring:
+  zipkin:
+    base-url: http://zipkin:9411/
+    enabled: true
+
+  rabbitmq:
+    username: guest
+    password: guest
+    host: rabbit-mq
+    port: 5672
+
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/catalog
+
+
+
+server:
+  port: 8065
+
+queue:
+  movie:
+    name: movieQueue
+  series:
+    name: seriesQueue
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - info
+  info:
+    env:
+      enabled: true
+
+  endpoint:
+    info:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0
+    description: Catalog Microservice
+  svc:
+    instance-id: ${eureka.instance.instance-id}
+    port: ${server.port}
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+resilience4j:
+  circuit-breaker:
+    instances:
+      movie:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15000
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
+        allowHealthIndicatorToFail: false
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+      series:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15000
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
+        allowHealthIndicatorToFail: false
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+  retry:
+    instances:
+      movie:
+        waitDuration: 1000
+        maxAttempts: 3
+        retryExceptions:
+          - feign.FeignException$InternalServerError
+
+      series:
+        waitDuration: 1000
+        maxAttempts: 3
+        retryExceptions:
+          - feign.FeignException$InternalServerError
+

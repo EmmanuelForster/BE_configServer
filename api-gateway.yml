@@ -1,0 +1,64 @@
+server:
+  port: 8080
+
+spring:
+  zipkin:
+    base-url: http://localhost:9411/
+    enabled: true
+
+  #  security:
+  #    oauth2:
+  #      client:
+  #        registration:
+  #          github:
+  #            client-id: d4633c9bde995b892939
+  #            client-secret: 32f8998f59f0af6b276c3a8f764a2883e9d26817
+
+  cloud:
+    gateway:
+      routes:
+        - id: aplicativo_catalog-service
+          uri: lb://catalog-service
+          predicates:
+            - Path=/catalog/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+        default-filters:
+          - AddRequestHeader=user-request-header, custom-user-request-header
+          - AddResponseHeader=user-response-header, custom-user-response-header
+          - LogFilter
+
+
+eureka:
+    instance:
+      hostname: localhost
+      instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+      prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: info
+    info:
+      env:
+        enabled: true
+    endpoint:
+      info:
+        enabled: true
+
+  info:
+    app:
+      name: ${spring.application.name}
+      version: 1.0.0
+      description: API Gateway
+    svc:
+      instance-id: ${eureka.instance.instance-id}
+      port: ${server.port}

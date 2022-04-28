@@ -1,0 +1,32 @@
+  
+server:
+  port: 8098
+  
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/serieBack
+
+  zipkin:
+    base-url: http://zipkin:9411/
+    enabled: true
+
+
+  rabbitmq:
+     username: guest
+     password: guest
+     host: rabbit-mq
+     port: 5672
+
+queue:
+  series:
+    name: seriesQueue
+
+
+eureka:
+#  instance:
+#    hostname: localhost
+#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka

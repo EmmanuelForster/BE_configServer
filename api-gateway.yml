@@ -32,33 +32,33 @@ spring:
 
 
 eureka:
-    instance:
-      hostname: registry-service
-      instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-      prefer-ip-address: true
+  instance:
+    hostname: registry-service
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
       defaultZone: http://registry-service:8761/eureka
 
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: info
-    info:
-      env:
-        enabled: true
-    endpoint:
-      info:
-        enabled: true
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info
   info:
-    app:
-      name: ${spring.application.name}
-      version: 1.0.0
-      description: API Gateway
-    svc:
-      instance-id: ${eureka.instance.instance-id}
-      port: ${server.port}
+    env:
+      enabled: true
+  endpoint:
+    info:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 1.0.0
+    description: API Gateway
+  svc:
+    instance-id: ${eureka.instance.instance-id}
+    port: ${server.port}

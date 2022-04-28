@@ -1,6 +1,6 @@
 spring:
   zipkin:
-    base-url: http://zipkin:9411/
+    base-url: http://localhost:9411/
     enabled: true
 
   rabbitmq:
@@ -11,7 +11,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://catalog-db:27017/catalog
+      uri: mongodb://localhost:27017/catalog
 
 
 
@@ -54,7 +54,7 @@ eureka:
 
   client:
     service-url:
-      defaultZone: http://registry-service:8761/eureka
+      defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
 

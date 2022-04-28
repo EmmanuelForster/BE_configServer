@@ -5,10 +5,10 @@ server:
 spring:    
   data:
     mongodb:
-      uri: mongodb://localhost:27017/movies
+      uri: mongodb://movie-db:27019/movies
 
   zipkin:
-    base-url: http://localhost:9411/
+    base-url: http://zipkin:9411/
     enabled: true
 
   rabbitmq:
@@ -23,7 +23,7 @@ eureka:
 #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://registry-service:8761/eureka
 
 queue:
   movie:
